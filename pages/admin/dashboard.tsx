@@ -1,4 +1,5 @@
 import { ReactElement } from "react"
+import CardLineChart from "../../components/Cards/CardLineChart"
 import AdminLayout from "../../layouts/adminLayout"
 import { NextPageWithLayout } from "../_app"
 
@@ -6,7 +7,9 @@ const Dashboard: NextPageWithLayout = () => {
 	return (
 		<>
 			<div className="flex flex-wrap">
-				<div className="w-full xl:w-8/12 mb-12 xl:mb-0 px-4">l</div>
+				<div className="w-full xl:w-8/12 mb-12 xl:mb-0 px-4">
+					<CardLineChart />
+				</div>
 			</div>
 		</>
 	)
