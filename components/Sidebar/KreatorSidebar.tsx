@@ -1,11 +1,10 @@
 import Link from "next/link"
 import { useRouter } from "next/router"
 import React from "react"
-
 import NotificationDropdown from "../Dropdowns/NotificationDropdown"
 import UserDropdown from "../Dropdowns/UserDropdown"
 
-export default function Sidebar() {
+const KreatorSidebar = () => {
 	const [collapseShow, setCollapseShow] = React.useState("hidden")
 	const router = useRouter()
 	return (
@@ -54,7 +53,7 @@ export default function Sidebar() {
 											href="#pablo"
 											className="md:block text-left md:pb-2 text-slate-600 mr-0 inline-block whitespace-nowrap text-sm uppercase font-bold p-4 px-0"
 										>
-											DigiKoncept Admin
+											DigiKoncept Kreator
 										</a>
 									</Link>
 								</div>
@@ -69,57 +68,23 @@ export default function Sidebar() {
 								</div>
 							</div>
 						</div>
-						{/* Form */}
-						{/* <form className="mt-6 mb-4 md:hidden">
-							<div className="mb-3 pt-0">
-								<input
-									type="text"
-									placeholder="Search"
-									className="border-0 px-3 py-2 h-12 border border-solid  border-slate-500 placeholder-slate-300 text-slate-600 bg-white rounded text-base leading-snug shadow-none outline-none focus:outline-none w-full font-normal"
-								/>
-							</div>
-						</form> */}
 
 						{/* Divider */}
 						<hr className="my-4 md:min-w-full" />
 						{/* Heading */}
 						<h6 className="md:min-w-full text-slate-500 text-xs uppercase font-bold block pt-1 pb-4 no-underline">
-							Kreators
+							Jobs
 						</h6>
 						{/* Navigation */}
 
 						<ul className="md:flex-col md:min-w-full flex flex-col list-none">
 							<li className="items-center">
-								<Link href="/admin/dashboard">
+								<Link href="/kreator/create">
 									<a
 										href="#pablo"
 										className={
 											"text-xs uppercase py-3 font-bold block " +
-											(router.pathname.indexOf("/admin/dashboard") !== -1
-												? "text-sky-500 hover:text-sky-600"
-												: "text-slate-700 hover:text-slate-500")
-										}
-									>
-										<i
-											className={
-												"fas fa-tv mr-2 text-sm " +
-												(router.pathname.indexOf("/admin/dashboard") !== -1
-													? "opacity-75"
-													: "text-slate-300")
-											}
-										></i>{" "}
-										Dashboard
-									</a>
-								</Link>
-							</li>
-
-							<li className="items-center">
-								<Link href="/admin/create">
-									<a
-										href="#pablo"
-										className={
-											"text-xs uppercase py-3 font-bold block " +
-											(router.pathname.indexOf("/admin/create") !== -1
+											(router.pathname.indexOf("/kreator/create") !== -1
 												? "text-sky-500 hover:text-sky-600"
 												: "text-slate-700 hover:text-slate-500")
 										}
@@ -127,7 +92,7 @@ export default function Sidebar() {
 										<i
 											className={
 												"fas fa-tools mr-2 text-sm " +
-												(router.pathname.indexOf("/admin/create") !== -1
+												(router.pathname.indexOf("/kreator/create") !== -1
 													? "opacity-75"
 													: "text-slate-300")
 											}
@@ -138,12 +103,12 @@ export default function Sidebar() {
 							</li>
 
 							<li className="items-center">
-								<Link href="/admin/list">
+								<Link href="/kreator/list">
 									<a
 										href="#pablo"
 										className={
 											"text-xs uppercase py-3 font-bold block " +
-											(router.pathname.indexOf("/admin/list") !== -1
+											(router.pathname.indexOf("/kreator/list") !== -1
 												? "text-sky-500 hover:text-sky-600"
 												: "text-slate-700 hover:text-slate-500")
 										}
@@ -151,7 +116,7 @@ export default function Sidebar() {
 										<i
 											className={
 												"fas fa-table mr-2 text-sm " +
-												(router.pathname.indexOf("/admin/list") !== -1
+												(router.pathname.indexOf("/kreator/list") !== -1
 													? "opacity-75"
 													: "text-slate-300")
 											}
@@ -172,7 +137,7 @@ export default function Sidebar() {
 
 						<ul className="md:flex-col md:min-w-full flex flex-col list-none md:mb-4">
 							<li className="items-center">
-								<Link href="/admin/clients">
+								<Link href="/kreator/clients">
 									<a
 										href="#pablo"
 										className="text-slate-700 hover:text-slate-500 text-xs uppercase py-3 font-bold block"
@@ -189,3 +154,5 @@ export default function Sidebar() {
 		</>
 	)
 }
+
+export default KreatorSidebar
