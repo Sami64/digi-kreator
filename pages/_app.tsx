@@ -1,4 +1,5 @@
 import "@fortawesome/fontawesome-free/css/all.min.css"
+import "antd/dist/antd.css"
 import { NextPage } from "next"
 import type { AppProps } from "next/app"
 import { ReactElement, ReactNode } from "react"

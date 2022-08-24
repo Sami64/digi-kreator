@@ -18,8 +18,12 @@ const NewJob = () => {
 			description: "",
 			category: categories,
 			audios: [],
+			images: [],
+			videos: [],
 		},
-		onSubmit: async (values) => {},
+		onSubmit: async (values) => {
+			console.log(values)
+		},
 		validationSchema: Yup.object({
 			title: Yup.string()
 				.min(8, "Must be at least 8 characters")
@@ -34,6 +38,8 @@ const NewJob = () => {
 				.required("please pick a category")
 				.oneOf(categories),
 			audios: Yup.array(Yup.object({ url: Yup.string().required() })),
+			images: Yup.array(Yup.object({ url: Yup.string().required() })),
+			videos: Yup.array(Yup.object({ url: Yup.string().required() })),
 		}),
 	})
 
@@ -79,6 +85,7 @@ const NewJob = () => {
 							)}
 						/>
 					</div>
+					{/**Audios Upload */}
 					<div className="flex flex-col my-5">
 						<label
 							htmlFor="audios"
@@ -89,14 +96,44 @@ const NewJob = () => {
 						<FileUpload
 							name="audios"
 							accept={{
-								// "image/*": [".png", ".jpg", ".jpeg"],
-								// "video/*": [".mp4", ".avi"],
 								"audio/*": [".mp3"],
+							}}
+						/>
+					</div>
+					{/**Videos Upload */}
+					<div className="flex flex-col my-5">
+						<label
+							htmlFor="videos"
+							className="capitalize text-slate-800 text-lg font-bold mb-5"
+						>
+							videos files
+						</label>
+						<FileUpload
+							name="videos"
+							accept={{
+								"video/*": [".mp4", ".avi"],
+							}}
+						/>
+					</div>
+					{/** Images Upload */}
+					<div className="flex flex-col my-5">
+						<label
+							htmlFor="images"
+							className="capitalize text-slate-800 text-lg font-bold mb-5"
+						>
+							image files
+						</label>
+						<FileUpload
+							name="images"
+							accept={{
+								"image/*": [".png", ".jpg", ".jpeg"],
+								// "video/*": [".mp4", ".avi"],
 							}}
 						/>
 					</div>
 					<div className="flex justify-center mt-10">
 						<button
+							type="submit"
 							disabled={!formik.isValid || formik.isSubmitting}
 							className={`${
 								formik.isValid

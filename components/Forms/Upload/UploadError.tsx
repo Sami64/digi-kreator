@@ -12,10 +12,12 @@ const UploadError = ({ file, onDelete, errors }: UploadErrorProps) => {
 		<>
 			<FileHeader file={file} onDelete={onDelete} />
 			<div className="animate-pulse">
-				<div className="bg-slate-700 rounded-full w-full h-2"></div>
+				<div className="bg-red-700 rounded-full w-full h-2"></div>
 			</div>
 			{errors.map((error) => (
-				<div key={error.code}>{error.message}</div>
+				<div className="text-red-700 font-bold" key={error.code}>
+					{error.message}
+				</div>
 			))}
 		</>
 	)

@@ -1,3 +1,4 @@
+import { Progress } from "antd"
 import { useEffect, useState } from "react"
 import FileHeader from "./FileHeader"
 
@@ -26,6 +27,7 @@ const UploadFile: React.FC<SingleFileUploadWithProgressProps> = ({
 	return (
 		<div>
 			<FileHeader file={file} onDelete={onDelete} />
+			<Progress percent={progress} />
 		</div>
 	)
 }
