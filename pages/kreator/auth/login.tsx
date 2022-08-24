@@ -1,7 +1,7 @@
 import Link from "next/link"
 import { ReactElement } from "react"
 import AuthLayout from "../../../layouts/authLayout"
-import { signIn } from "next-auth"
+//import { signIn } from "next-auth"
 
 const Login = () => {
 	return (
@@ -27,7 +27,7 @@ const Login = () => {
 									<button
 										className="bg-white active:bg-slate-50 text-slate-700 font-normal px-4 py-2 rounded outline-none focus:outline-none mr-1 mb-1 uppercase shadow hover:shadow-md inline-flex items-center font-bold text-xs ease-linear transition-all duration-150"
 										type="button"
-										onClick={() => signIn()}
+										//onClick={() => signIn()}
 									>
 										<img alt="..." className="w-5 mr-1" src="/img/google.svg" />
 										Google
