@@ -6,7 +6,7 @@ import AuthLayout from "../../../layouts/authLayout"
 const Login = () => {
 	const handleSignIn = async () => {
 		try {
-			await signIn("google", { callbackUrl: "/" })
+			await signIn("google", { callbackUrl: "/kreator" })
 		} catch (error) {
 			console.log("Auth error", error)
 		}
