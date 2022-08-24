@@ -1,6 +1,7 @@
 import "@fortawesome/fontawesome-free/css/all.min.css"
 import "antd/dist/antd.css"
 import { NextPage } from "next"
+import { SessionProvider } from "next-auth/react"
 import type { AppProps } from "next/app"
 import { ReactElement, ReactNode } from "react"
 import "../styles/globals.css"
@@ -35,9 +36,16 @@ type AppPropsWithLayout = AppProps & {
 	Component: NextPageWithLayout
 }
 
-function MyApp({ Component, pageProps }: AppPropsWithLayout) {
+function MyApp({
+	Component,
+	pageProps: { session, ...pageProps },
+}: AppPropsWithLayout) {
 	const getLayout = Component.getLayout ?? ((page) => page)
-	return getLayout(<Component {...pageProps} />)
+	return getLayout(
+		<SessionProvider session={session}>
+			<Component {...pageProps} />
+		</SessionProvider>
+	)
 }
 
 export default MyApp

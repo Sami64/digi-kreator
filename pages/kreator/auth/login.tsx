@@ -1,9 +1,17 @@
+import { signIn } from "next-auth/react"
 import Link from "next/link"
 import { ReactElement } from "react"
 import AuthLayout from "../../../layouts/authLayout"
-//import { signIn } from "next-auth"
 
 const Login = () => {
+	const handleSignIn = async () => {
+		try {
+			await signIn("google", { callbackUrl: "/" })
+		} catch (error) {
+			console.log("Auth error", error)
+		}
+	}
+
 	return (
 		<>
 			<div className="container mx-auto px-4 h-full">
@@ -27,7 +35,7 @@ const Login = () => {
 									<button
 										className="bg-white active:bg-slate-50 text-slate-700 font-normal px-4 py-2 rounded outline-none focus:outline-none mr-1 mb-1 uppercase shadow hover:shadow-md inline-flex items-center font-bold text-xs ease-linear transition-all duration-150"
 										type="button"
-										//onClick={() => signIn()}
+										onClick={handleSignIn}
 									>
 										<img alt="..." className="w-5 mr-1" src="/img/google.svg" />
 										Google

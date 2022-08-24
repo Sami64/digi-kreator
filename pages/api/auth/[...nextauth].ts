@@ -9,12 +9,6 @@ export const authOptions: NextAuthOptions = {
 		GoogleProvider({
 			clientId: process.env.GOOGLE_ID as string,
 			clientSecret: process.env.GOOGLE_SECRET as string,
-			profile(profile) {
-				return {
-					id: profile.id,
-					number: profile,
-				}
-			},
 		}),
 	],
 	callbacks: {
@@ -23,12 +17,12 @@ export const authOptions: NextAuthOptions = {
 			//session?.user?.id = user?.id;
 			return session
 		},
-		async signIn({ user, account, profile, email, credentials }) {
-			console.log("After sign in")
-			console.log(user)
-			console.log(profile)
-			return true
-		},
+		// async signIn({ user, account, profile, email, credentials }) {
+		// 	console.log("After sign in")
+		// 	console.log(user)
+		// 	console.log(profile)
+		// 	return true
+		// },
 	},
 	secret: process.env.NEXTAUTH_SECRET,
 	adapter: FirestoreAdapter({
