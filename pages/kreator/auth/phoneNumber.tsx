@@ -44,7 +44,7 @@ const PhoneNumber: NextPageWithLayout = () => {
 				setShowPhoneForm(true)
 				return
 			} else {
-				router.replace("/kreator/")
+				router.replace("/kreator/home")
 			}
 		} else {
 			router.replace("/kreator/auth/login")
@@ -68,7 +68,7 @@ const PhoneNumber: NextPageWithLayout = () => {
 					catObj[0]
 				)
 
-				router.replace("/kreator/")
+				router.replace("/kreator/home")
 			} catch (error) {
 				alert(error)
 			}

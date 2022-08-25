@@ -1,42 +1,85 @@
 import { ErrorMessage, Field, Form, FormikProvider, useFormik } from "formik"
+import { useSession } from "next-auth/react"
+import { useEffect, useState } from "react"
 import * as Yup from "yup"
-import FileUpload from "../Forms/FileUpload"
+import { Category } from "../../core/categories/types"
+import { retrieveCategories } from "../../modules/categories/retrieve"
+import { createJob } from "../../modules/job/create"
+import { retrieveKreator } from "../../modules/users/retrieve"
+import FileUpload, { UploadableFile } from "../Forms/FileUpload"
 import FormInput from "../Forms/FormInput"
 
 const NewJob = () => {
-	const categories: string[] = ["category 1", "category 2"]
+	const [categories, setCategories] = useState<Category[]>([])
+	const { data: session, status } = useSession()
 
 	const categoriesOptions = categories.map((category, key) => (
-		<option key={key} value={category} className="capitalize text-lg">
-			{category}
+		<option key={key} value={category.title} className="capitalize text-lg">
+			{category.title}
 		</option>
 	))
+
+	useEffect(() => {
+		getCategories()
+	}, [])
+
+	const getCategories = async () => {
+		const dbCategories = await retrieveCategories()
+		setCategories(dbCategories)
+	}
+
+	interface FormValues {
+		title: string
+		description: string
+		category: string
+		audios: UploadableFile[]
+		images: UploadableFile[]
+		videos: UploadableFile[]
+	}
 
 	const formik = useFormik({
 		initialValues: {
 			title: "",
 			description: "",
-			category: categories,
+			category: "",
 			audios: [],
 			images: [],
 			videos: [],
 		},
-		onSubmit: async (values) => {
-			console.log(values)
+		onSubmit: async (values: FormValues) => {
+			try {
+				console.log("form", values)
+				console.log(session)
+				const catObj = categories.filter((cat) => cat.title == values.category)
+				console.log("cat obj", catObj)
+				const kreator = await retrieveKreator(session?.userId as string)
+				console.log("kreator", kreator)
+
+				await createJob(
+					values.title,
+					values.description,
+					kreator,
+					catObj[0],
+					values.videos.map((video) => video.url as string),
+					values.audios.map((audio) => audio.url as string),
+					values.images.map((image) => image.url as string)
+				)
+				formik.resetForm()
+
+				alert("Job created successfully")
+			} catch (error) {
+				alert(error)
+			}
 		},
 		validationSchema: Yup.object({
 			title: Yup.string()
 				.min(8, "Must be at least 8 characters")
 				.max(20, "Must be less  than 20 characters")
-				.required("Title is required")
-				.matches(
-					/^[a-zA-Z0-9]+$/,
-					"Cannot contain special characters or spaces"
-				),
+				.required("Title is required"),
 			description: Yup.string().required("Description is required"),
 			category: Yup.string()
 				.required("please pick a category")
-				.oneOf(categories),
+				.oneOf(categories.map((category) => category.title)),
 			audios: Yup.array(Yup.object({ url: Yup.string().required() })),
 			images: Yup.array(Yup.object({ url: Yup.string().required() })),
 			videos: Yup.array(Yup.object({ url: Yup.string().required() })),
@@ -141,7 +184,8 @@ const NewJob = () => {
 									: "bg-slate-400 hover:cursor-not-allowed"
 							} justify-center font-bold shadow-lg w-96 items-center rounded-xl   text-center p-4 text-lg uppercase text-white`}
 						>
-							create
+							{formik.isSubmitting && "creating..."}
+							{!formik.isSubmitting && "create"}
 						</button>
 					</div>
 				</Form>

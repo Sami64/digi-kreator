@@ -25,7 +25,7 @@ const KreatorSidebar = () => {
 							href="#pablo"
 							className="md:block text-left md:pb-2 text-slate-600 mr-0 inline-block whitespace-nowrap text-sm uppercase font-bold p-4 px-0"
 						>
-							DigiKoncept Admin
+							DigiKoncept Kreator
 						</a>
 					</Link>
 					{/* User */}
@@ -79,12 +79,12 @@ const KreatorSidebar = () => {
 
 						<ul className="md:flex-col md:min-w-full flex flex-col list-none">
 							<li className="items-center">
-								<Link href="/kreator">
+								<Link href="/kreator/home">
 									<a
 										href="#pablo"
 										className={
 											"text-xs uppercase py-3 font-bold block " +
-											(router.pathname.indexOf("/kreator") !== -1
+											(router.pathname.indexOf("/kreator/home") !== -1
 												? "text-sky-500 hover:text-sky-600"
 												: "text-slate-700 hover:text-slate-500")
 										}
@@ -92,7 +92,7 @@ const KreatorSidebar = () => {
 										<i
 											className={
 												"fas fa-tools mr-2 text-sm " +
-												(router.pathname.indexOf("/kreator") !== -1
+												(router.pathname.indexOf("/kreator/home") !== -1
 													? "opacity-75"
 													: "text-slate-300")
 											}

@@ -4,7 +4,7 @@ import { ReactElement } from "react"
 import KreatorLayout from "../../layouts/kreatorLayout"
 import { NextPageWithLayout } from "../_app"
 
-const Index: NextPageWithLayout = () => {
+const Home: NextPageWithLayout = () => {
 	const router = useRouter()
 	const { data: session, status } = useSession()
 
@@ -30,8 +30,8 @@ const Index: NextPageWithLayout = () => {
 	)
 }
 
-export default Index
+export default Home
 
-Index.getLayout = function getLayout(page: ReactElement) {
+Home.getLayout = function getLayout(page: ReactElement) {
 	return <KreatorLayout>{page}</KreatorLayout>
 }
