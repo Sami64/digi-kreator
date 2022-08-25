@@ -5,7 +5,10 @@ import { db } from "../../firebase"
 export const createKreator = async (
 	userId: string,
 	name: string,
-	email: string
+	email: string,
+	phone: string,
+	location: { longitude: number; latitude: number },
+	category: { id: string; title: string }
 ): Promise<Kreator> => {
 	let kreator: Kreator = {
 		id: "",
@@ -16,14 +19,17 @@ export const createKreator = async (
 		category: { id: "", title: "" },
 	}
 
-	const kreatorsCollection = collection(db, "kreators", userId)
+	const kreatorsCollection = collection(db, "kreators")
 
-	const firestoreDoc = doc(kreatorsCollection)
+	const firestoreDoc = doc(kreatorsCollection, userId)
 
 	await setDoc(firestoreDoc, {
 		id: userId,
-		name: name,
-		email: email,
+		name,
+		email,
+		phone,
+		location,
+		category,
 	})
 
 	return kreator

@@ -79,6 +79,29 @@ const KreatorSidebar = () => {
 
 						<ul className="md:flex-col md:min-w-full flex flex-col list-none">
 							<li className="items-center">
+								<Link href="/kreator">
+									<a
+										href="#pablo"
+										className={
+											"text-xs uppercase py-3 font-bold block " +
+											(router.pathname.indexOf("/kreator") !== -1
+												? "text-sky-500 hover:text-sky-600"
+												: "text-slate-700 hover:text-slate-500")
+										}
+									>
+										<i
+											className={
+												"fas fa-tools mr-2 text-sm " +
+												(router.pathname.indexOf("/kreator") !== -1
+													? "opacity-75"
+													: "text-slate-300")
+											}
+										></i>{" "}
+										home
+									</a>
+								</Link>
+							</li>
+							<li className="items-center">
 								<Link href="/kreator/create">
 									<a
 										href="#pablo"

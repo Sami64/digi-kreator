@@ -11,7 +11,7 @@ const KreatorLayout = ({ children }: PropsWithChildren<{}>) => {
 				<AdminNavbar />
 				{/* <HeaderStats /> */}
 				<div className="relative bg-slate-800 md:pt-32 pb-32 pt-12"></div>
-				<div className="px-4 md:px-10 mx-auto w-full -m-24 ">
+				<div className="px-4 md:px-10 mx-auto w-full -m-24 h-full bg-slate-200">
 					{children}
 					<FooterAdmin />
 				</div>

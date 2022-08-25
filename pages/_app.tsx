@@ -4,6 +4,7 @@ import { NextPage } from "next"
 import { SessionProvider } from "next-auth/react"
 import type { AppProps } from "next/app"
 import { ReactElement, ReactNode } from "react"
+import { LocationContextProvider } from "../contexts/LocationContextProvider"
 import "../styles/globals.css"
 import "../styles/tailwind.css"
 
@@ -43,7 +44,9 @@ function MyApp({
 	const getLayout = Component.getLayout ?? ((page) => page)
 	return getLayout(
 		<SessionProvider session={session}>
-			<Component {...pageProps} />
+			<LocationContextProvider>
+				<Component {...pageProps} />
+			</LocationContextProvider>
 		</SessionProvider>
 	)
 }

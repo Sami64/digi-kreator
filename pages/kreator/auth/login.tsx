@@ -1,4 +1,4 @@
-import { signIn, useSession } from "next-auth/react"
+import { signIn } from "next-auth/react"
 import Link from "next/link"
 import { ReactElement } from "react"
 import AuthLayout from "../../../layouts/authLayout"
@@ -6,7 +6,7 @@ import AuthLayout from "../../../layouts/authLayout"
 const Login = () => {
 	const handleSignIn = async () => {
 		try {
-			await signIn("google")
+			await signIn("google", { callbackUrl: "/kreator/auth/phoneNumber" })
 		} catch (error) {
 			console.log("Auth error", error)
 		}
