@@ -1,8 +1,9 @@
 import { FirestoreAdapter } from "@next-auth/firebase-adapter"
+import { collection } from "firebase/firestore"
 import { NextApiRequest, NextApiResponse } from "next"
-import type { NextAuthOptions } from "next-auth"
-import NextAuth from "next-auth"
+import NextAuth, { NextAuthOptions } from "next-auth"
 import GoogleProvider from "next-auth/providers/google"
+import { db } from "../../../firebase"
 
 export const authOptions: NextAuthOptions = {
 	providers: [
@@ -17,12 +18,14 @@ export const authOptions: NextAuthOptions = {
 			//session?.user?.id = user?.id;
 			return session
 		},
-		// async signIn({ user, account, profile, email, credentials }) {
-		// 	console.log("After sign in")
-		// 	console.log(user)
-		// 	console.log(profile)
-		// 	return true
-		// },
+		async signIn({ user, account, profile, email }) {
+			const kreatorCollection = collection(db, "kreators")
+			console.log("After sign in")
+			console.log(user)
+			console.log(profile)
+			console.log("account", account)
+			return true
+		},
 	},
 	secret: process.env.NEXTAUTH_SECRET,
 	adapter: FirestoreAdapter({
