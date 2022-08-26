@@ -11,7 +11,7 @@ const Index = () => {
 	const [rooms, setRooms] = useState<ChatRoomDetails[]>([])
 
 	useEffect(() => {
-		getRooms()
+		getRooms().then((rooms) => setRooms(rooms))
 	}, [])
 
 	const getRooms = async () => {
@@ -19,13 +19,16 @@ const Index = () => {
 		let uRooms: ChatRoomDetails[] = []
 		if (uSession?.user != null) {
 			const dbRooms = await retrieveRooms(uSession?.userId as string)
+			console.log("db rooms", dbRooms)
 			dbRooms.map(async (room) => {
 				const client = await retrieveChatClient(room.userId)
 				const job = await jobDetails(room.jobId)
 				uRooms.push({ id: room.id, kreatorId: room.kreatorId, client, job })
 			})
-			setRooms(uRooms)
+
+			return uRooms
 		}
+		return uRooms
 	}
 
 	return (
@@ -37,18 +40,25 @@ const Index = () => {
 				{/**Chat List */}
 				<div className="bg-white rounded-lg p-16 shadow-lg">
 					<ul className="space-y-6">
-						<li className="group cursor-pointer">
-							<Link href="/kreator/clients/chat/1">
-								<a href="">
-									<div className="flex flex-col group-hover:shadow-lg p-5">
-										<h1 className="text-2xl text-slate-800 font-bold">
-											<i className="fas fa-comment-dots pr-5"></i>
-											Chat 1
-										</h1>
-									</div>
-								</a>
-							</Link>
-						</li>
+						{rooms.length > 0 ? (
+							rooms.map((room) => (
+								<li key={room.id} className="group cursor-pointer">
+									<Link href={`/kreator/clients/chat/${room.id}`}>
+										<a href="">
+											<div className="flex flex-col group-hover:shadow-lg p-5">
+												<h1 className="text-2xl text-slate-800 font-bold">
+													<i className="fas fa-comment-dots pr-5"></i>
+													{`Chat with ${room.client?.name} on job ${room.job?.title}`}
+												</h1>
+											</div>
+										</a>
+									</Link>
+								</li>
+							))
+						) : (
+							<li>No Chats</li>
+						)}
+
 						{/* Divider */}
 						<hr className="my-4 md:min-w-full" />
 					</ul>

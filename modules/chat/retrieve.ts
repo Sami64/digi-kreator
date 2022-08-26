@@ -4,6 +4,7 @@ import {
 	getDoc,
 	getDocs,
 	onSnapshot,
+	orderBy,
 	query,
 	where,
 } from "firebase/firestore"
@@ -71,7 +72,8 @@ export const retrieveChatRoomMessages = async (
 	setMessages: Dispatch<SetStateAction<ChatMessage[]>>
 ) => {
 	const roomDoc = collection(db, "rooms", id, "messages")
-	onSnapshot(roomDoc, (doc) => {
+	const q = query(roomDoc, orderBy("timestamp", "asc"))
+	onSnapshot(q, (doc) => {
 		setMessages(
 			doc.docs.map((messageDoc) => {
 				return {
