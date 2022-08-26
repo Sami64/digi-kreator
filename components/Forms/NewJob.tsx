@@ -9,7 +9,7 @@ import { retrieveKreator } from "../../modules/users/retrieve"
 import FileUpload, { UploadableFile } from "../Forms/FileUpload"
 import FormInput from "../Forms/FormInput"
 
-const NewJob = () => {
+const NewJob: React.FC = () => {
 	const [categories, setCategories] = useState<Category[]>([])
 	const { data: session, status } = useSession()
 

@@ -160,13 +160,13 @@ const KreatorSidebar = () => {
 
 						<ul className="md:flex-col md:min-w-full flex flex-col list-none md:mb-4">
 							<li className="items-center">
-								<Link href="/kreator/clients">
+								<Link href="/kreator/clients/chat">
 									<a
 										href="#pablo"
 										className="text-slate-700 hover:text-slate-500 text-xs uppercase py-3 font-bold block"
 									>
 										<i className="fas fa-fingerprint text-slate-400 mr-2 text-sm"></i>{" "}
-										List
+										Chats
 									</a>
 								</Link>
 							</li>

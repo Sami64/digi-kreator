@@ -29,3 +29,25 @@ export const retrieveKreator = async (id: string): Promise<Kreator> => {
 
 	return kreator
 }
+
+export const retrieveChatClient = async (id: string) => {
+	let client = {
+		id: "",
+		name: "",
+		email: "",
+	}
+
+	const docRef = doc(collection(db, "clients"), id)
+	const snapshot = await getDoc(docRef)
+
+	if (snapshot.exists()) {
+		client = {
+			id: snapshot.id,
+			name: snapshot.data()["name"],
+			email: snapshot.data()["email"],
+		}
+		return client
+	}
+
+	return client
+}
