@@ -57,7 +57,7 @@ const FileUpload = ({ name, accept }: { name: string; accept: {} }) => {
 	const { getRootProps, getInputProps } = useDropzone({
 		onDrop,
 		accept: accept,
-		maxSize: 3000 * 1024, // 300KB
+		maxSize: 30000 * 1000, // 300KB
 	})
 
 	return (

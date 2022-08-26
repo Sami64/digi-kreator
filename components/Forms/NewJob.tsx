@@ -154,7 +154,7 @@ const NewJob: React.FC = () => {
 						<FileUpload
 							name="videos"
 							accept={{
-								"video/*": [".mp4", ".avi"],
+								"video/mp4": [],
 							}}
 						/>
 					</div>
@@ -170,7 +170,6 @@ const NewJob: React.FC = () => {
 							name="images"
 							accept={{
 								"image/*": [".png", ".jpg", ".jpeg"],
-								// "video/*": [".mp4", ".avi"],
 							}}
 						/>
 					</div>
