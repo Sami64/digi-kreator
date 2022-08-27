@@ -24,6 +24,7 @@ export interface UploadableFile {
 const FileUpload = ({ name, accept }: { name: string; accept: {} }) => {
 	const [_, __, helpers] = useField(name)
 	const [files, setFiles] = useState<UploadableFile[]>([])
+	const maxSize = 20000 * 1000
 
 	const onDrop = useCallback((accFiles: File[], rejFiles: FileRejection[]) => {
 		const mappedAcc = accFiles.map((file) => ({
@@ -54,11 +55,14 @@ const FileUpload = ({ name, accept }: { name: string; accept: {} }) => {
 		setFiles((curr) => curr.filter((fw) => fw.file !== file))
 	}
 
-	const { getRootProps, getInputProps } = useDropzone({
+	const { getRootProps, getInputProps, fileRejections } = useDropzone({
 		onDrop,
 		accept: accept,
-		maxSize: 30000 * 1000, // 300KB
+		maxSize: maxSize, // 300KB
 	})
+
+	const fileLarge =
+		fileRejections.length > 0 && fileRejections[0].file.size > maxSize
 
 	return (
 		<div>
@@ -78,6 +82,7 @@ const FileUpload = ({ name, accept }: { name: string; accept: {} }) => {
 							file={file.file}
 							errors={file.errors}
 							onDelete={onDelete}
+							fileLarge={fileLarge}
 						/>
 					) : (
 						<UploadFile

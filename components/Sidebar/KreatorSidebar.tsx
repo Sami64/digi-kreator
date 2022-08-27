@@ -126,12 +126,12 @@ const KreatorSidebar = () => {
 							</li>
 
 							<li className="items-center">
-								<Link href="/kreator/list">
+								<Link href="/kreator/jobs">
 									<a
 										href="#pablo"
 										className={
 											"text-xs uppercase py-3 font-bold block " +
-											(router.pathname.indexOf("/kreator/list") !== -1
+											(router.pathname.indexOf("/kreator/jobs") !== -1
 												? "text-sky-500 hover:text-sky-600"
 												: "text-slate-700 hover:text-slate-500")
 										}
@@ -139,12 +139,12 @@ const KreatorSidebar = () => {
 										<i
 											className={
 												"fas fa-table mr-2 text-sm " +
-												(router.pathname.indexOf("/kreator/list") !== -1
+												(router.pathname.indexOf("/kreator/jobs") !== -1
 													? "opacity-75"
 													: "text-slate-300")
 											}
 										></i>{" "}
-										List
+										all jobs
 									</a>
 								</Link>
 							</li>

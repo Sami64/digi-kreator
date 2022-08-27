@@ -13,7 +13,7 @@ const jobsCollection = collection(db, "jobs")
 
 export const retrieveJobs = async (id: string) => {
 	let jobs: Job[] = []
-	const jobsQuery = query(jobsCollection, where("category.id", "==", id))
+	const jobsQuery = query(jobsCollection, where("kreator.id", "==", id))
 
 	const jobSnapshot = await getDocs(jobsQuery)
 	jobSnapshot.forEach((job) => {

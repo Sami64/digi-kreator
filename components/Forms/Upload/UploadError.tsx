@@ -5,9 +5,15 @@ export interface UploadErrorProps {
 	file: File
 	onDelete: (file: File) => void
 	errors: FileError[]
+	fileLarge: boolean
 }
 
-const UploadError = ({ file, onDelete, errors }: UploadErrorProps) => {
+const UploadError = ({
+	file,
+	onDelete,
+	errors,
+	fileLarge,
+}: UploadErrorProps) => {
 	return (
 		<>
 			<FileHeader file={file} onDelete={onDelete} />
@@ -16,7 +22,7 @@ const UploadError = ({ file, onDelete, errors }: UploadErrorProps) => {
 			</div>
 			{errors.map((error) => (
 				<div className="text-red-700 font-bold" key={error.code}>
-					{error.message}
+					{fileLarge ? "File should be less than 20MB" : error.message}
 				</div>
 			))}
 		</>
