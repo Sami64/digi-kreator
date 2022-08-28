@@ -37,12 +37,6 @@ const Jobs: NextPageWithLayout = () => {
 
 export default Jobs
 
-// export const getServerSideProps: GetServerSideProps = async () => {
-// 	const session = await getSession()
-// 	const jobs: Job[] = await retrieveJobs(session?.userId as string)
-// 	return { props: { jobs } }
-// }
-
 Jobs.getLayout = function getLayout(page: ReactElement) {
 	return <KreatorLayout>{page}</KreatorLayout>
 }
