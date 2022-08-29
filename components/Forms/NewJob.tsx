@@ -1,15 +1,23 @@
 import { ErrorMessage, Field, Form, FormikProvider, useFormik } from "formik"
 import { useSession } from "next-auth/react"
+import { useRouter } from "next/router"
 import { useEffect, useState } from "react"
 import * as Yup from "yup"
 import { Category } from "../../core/categories/types"
+import { Job } from "../../core/job/types"
 import { retrieveCategories } from "../../modules/categories/retrieve"
-import { createJob } from "../../modules/job/create"
+import { createJob, editJob } from "../../modules/job/create"
 import { retrieveKreator } from "../../modules/users/retrieve"
 import FileUpload, { UploadableFile } from "../Forms/FileUpload"
 import FormInput from "../Forms/FormInput"
 
-const NewJob: React.FC = () => {
+interface Props {
+	isEdit?: boolean
+	job?: Job
+}
+
+const NewJob: React.FC<Props> = ({ isEdit = false, job }) => {
+	const router = useRouter()
 	const [categories, setCategories] = useState<Category[]>([])
 	const { data: session, status } = useSession()
 
@@ -25,6 +33,7 @@ const NewJob: React.FC = () => {
 
 	const getCategories = async () => {
 		const dbCategories = await retrieveCategories()
+		if (isEdit) await formik.validateForm()
 		setCategories(dbCategories)
 	}
 
@@ -38,35 +47,52 @@ const NewJob: React.FC = () => {
 	}
 
 	const formik = useFormik({
-		initialValues: {
-			title: "",
-			description: "",
-			category: "",
-			audios: [],
-			images: [],
-			videos: [],
-		},
+		initialValues: isEdit
+			? {
+					title: job?.title as string,
+					description: job?.description as string,
+					category: job?.category.title as string,
+					audios: job?.audios as any,
+					images: job?.images as any,
+					videos: job?.videos as any,
+			  }
+			: {
+					title: "",
+					description: "",
+					category: "",
+					audios: [],
+					images: [],
+					videos: [],
+			  },
 		onSubmit: async (values: FormValues) => {
 			try {
-				console.log("form", values)
-				console.log(session)
 				const catObj = categories.filter((cat) => cat.title == values.category)
-				console.log("cat obj", catObj)
-				const kreator = await retrieveKreator(session?.userId as string)
-				console.log("kreator", kreator)
 
-				await createJob(
-					values.title,
-					values.description,
-					kreator,
-					catObj[0],
-					values.videos.map((video) => video.url as string),
-					values.audios.map((audio) => audio.url as string),
-					values.images.map((image) => image.url as string)
-				)
-				formik.resetForm()
+				if (!isEdit) {
+					const kreator = await retrieveKreator(session?.userId as string)
 
-				alert("Job created successfully")
+					await createJob(
+						values.title,
+						values.description,
+						kreator,
+						catObj[0],
+						values.videos.map((video) => video.url as string),
+						values.audios.map((audio) => audio.url as string),
+						values.images.map((image) => image.url as string)
+					)
+					router.replace("/kreator/jobs")
+				} else {
+					await editJob(
+						job?.id as string,
+						values.title,
+						values.description,
+						catObj[0],
+						values.videos.map((video) => video.url as string),
+						values.audios.map((audio) => audio.url as string),
+						values.images.map((image) => image.url as string)
+					)
+					router.replace(`/kreator/job/${job?.id}`)
+				}
 			} catch (error) {
 				alert(error)
 			}
@@ -183,8 +209,12 @@ const NewJob: React.FC = () => {
 									: "bg-slate-400 hover:cursor-not-allowed"
 							} justify-center font-bold shadow-lg w-96 items-center rounded-xl   text-center p-4 text-lg uppercase text-white`}
 						>
-							{formik.isSubmitting && "creating..."}
-							{!formik.isSubmitting && "create"}
+							{formik.isSubmitting
+								? isEdit
+									? "processing"
+									: "creating..."
+								: ""}
+							{!formik.isSubmitting ? (isEdit ? "edit" : "create") : ""}
 						</button>
 					</div>
 				</Form>

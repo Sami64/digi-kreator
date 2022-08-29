@@ -1,3 +1,4 @@
+import { GetServerSideProps } from "next"
 import { getSession } from "next-auth/react"
 import Link from "next/link"
 import { ReactElement, useEffect, useState } from "react"
@@ -11,7 +12,7 @@ const Index = () => {
 	const [rooms, setRooms] = useState<ChatRoomDetails[]>([])
 
 	useEffect(() => {
-		getRooms().then((rooms) => setRooms(rooms))
+		getRooms()
 	}, [])
 
 	const getRooms = async () => {
@@ -19,16 +20,16 @@ const Index = () => {
 		let uRooms: ChatRoomDetails[] = []
 		if (uSession?.user != null) {
 			const dbRooms = await retrieveRooms(uSession?.userId as string)
-			console.log("db rooms", dbRooms)
+
 			dbRooms.map(async (room) => {
 				const client = await retrieveChatClient(room.userId)
 				const job = await jobDetails(room.jobId)
-				uRooms.push({ id: room.id, kreatorId: room.kreatorId, client, job })
+				setRooms([
+					...rooms,
+					{ id: room.id, kreatorId: room.kreatorId, client, job },
+				])
 			})
-
-			return uRooms
 		}
-		return uRooms
 	}
 
 	return (
@@ -69,6 +70,10 @@ const Index = () => {
 }
 
 export default Index
+
+export const getServerSideProps: GetServerSideProps = async () => {
+	return { props: {} }
+}
 
 Index.getLayout = function getLayout(page: ReactElement) {
 	return <KreatorLayout>{page}</KreatorLayout>

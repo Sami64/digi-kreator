@@ -1,4 +1,11 @@
-import { collection, doc, setDoc } from "firebase/firestore"
+import {
+	arrayUnion,
+	collection,
+	deleteDoc,
+	doc,
+	setDoc,
+	updateDoc,
+} from "firebase/firestore"
 import { Category } from "../../core/categories/types"
 import { Kreator } from "../../core/users/types"
 import { db } from "../../firebase"
@@ -44,4 +51,29 @@ export const createJob = async (
 		images,
 		kreator,
 	})
+}
+
+export const editJob = async (
+	id: string,
+	title: string,
+	description: string,
+	category: Category,
+	videos: string[],
+	audios: string[],
+	images: string[]
+) => {
+	const firestoreDoc = doc(db, "jobs", id)
+
+	await updateDoc(firestoreDoc, {
+		title,
+		description,
+		category,
+		videos: videos.length > 0 ? arrayUnion(...videos) : arrayUnion(...[]),
+		audios: audios.length > 0 ? arrayUnion(...audios) : arrayUnion(...[]),
+		images: images.length > 0 ? arrayUnion(...images) : arrayUnion(...[]),
+	})
+}
+
+export const deleteJob = async (id: string) => {
+	await deleteDoc(doc(db, "jobs", id))
 }

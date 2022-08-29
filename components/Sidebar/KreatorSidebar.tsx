@@ -20,7 +20,7 @@ const KreatorSidebar = () => {
 						<i className="fas fa-bars"></i>
 					</button>
 					{/* Brand */}
-					<Link href="/">
+					<Link href="/kreator/home">
 						<a
 							href="#pablo"
 							className="md:block text-left md:pb-2 text-slate-600 mr-0 inline-block whitespace-nowrap text-sm uppercase font-bold p-4 px-0"
@@ -48,7 +48,7 @@ const KreatorSidebar = () => {
 						<div className="md:min-w-full md:hidden block pb-4 mb-4 border-b border-solid border-slate-200">
 							<div className="flex flex-wrap">
 								<div className="w-6/12">
-									<Link href="/">
+									<Link href="/kreator/home">
 										<a
 											href="#pablo"
 											className="md:block text-left md:pb-2 text-slate-600 mr-0 inline-block whitespace-nowrap text-sm uppercase font-bold p-4 px-0"
@@ -163,7 +163,12 @@ const KreatorSidebar = () => {
 								<Link href="/kreator/clients/chat">
 									<a
 										href="#pablo"
-										className="text-slate-700 hover:text-slate-500 text-xs uppercase py-3 font-bold block"
+										className={
+											"text-xs uppercase py-3 font-bold block " +
+											(router.pathname.indexOf("/kreator/clients/chat") !== -1
+												? "text-sky-500 hover:text-sky-600"
+												: "text-slate-700 hover:text-slate-500")
+										}
 									>
 										<i className="fas fa-fingerprint text-slate-400 mr-2 text-sm"></i>{" "}
 										Chats
