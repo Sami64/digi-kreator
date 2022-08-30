@@ -42,10 +42,10 @@ function MyApp({
 	pageProps: { session, ...pageProps },
 }: AppPropsWithLayout) {
 	const getLayout = Component.getLayout ?? ((page) => page)
-	return getLayout(
+	return (
 		<SessionProvider session={session}>
 			<LocationContextProvider>
-				<Component {...pageProps} />
+				{getLayout(<Component {...pageProps} />)}
 			</LocationContextProvider>
 		</SessionProvider>
 	)
