@@ -1,15 +1,16 @@
 import type { NextPage } from "next"
-import { useSession } from "next-auth/react"
 import Head from "next/head"
 import Image from "next/image"
+import { useRouter } from "next/router"
 import { useEffect } from "react"
 
 const Home: NextPage = () => {
-	const { data: session, status } = useSession()
+	const router = useRouter()
 
 	useEffect(() => {
-		console.log("user", session?.user?.email)
+		router.replace("/kreator/home")
 	}, [])
+
 	return (
 		<div className="flex min-h-screen flex-col items-center justify-center py-2">
 			<Head>

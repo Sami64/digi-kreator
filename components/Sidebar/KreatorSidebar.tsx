@@ -1,3 +1,4 @@
+import { signOut, useSession } from "next-auth/react"
 import Link from "next/link"
 import { useRouter } from "next/router"
 import React from "react"
@@ -5,8 +6,15 @@ import NotificationDropdown from "../Dropdowns/NotificationDropdown"
 import UserDropdown from "../Dropdowns/UserDropdown"
 
 const KreatorSidebar = () => {
+	const { data: session } = useSession()
 	const [collapseShow, setCollapseShow] = React.useState("hidden")
 	const router = useRouter()
+
+	const handleLogout = async () => {
+		await signOut()
+		router.replace("/kreator/auth/login")
+	}
+
 	return (
 		<>
 			<nav className="md:left-0 md:block md:fixed md:top-0 md:bottom-0 md:overflow-y-auto md:flex-row md:flex-nowrap md:overflow-hidden shadow-xl bg-white flex flex-wrap items-center justify-between relative md:w-64 z-10 py-4 px-6">
@@ -170,11 +178,26 @@ const KreatorSidebar = () => {
 												: "text-slate-700 hover:text-slate-500")
 										}
 									>
-										<i className="fas fa-fingerprint text-slate-400 mr-2 text-sm"></i>{" "}
+										<i className="fas fa-comments text-slate-400 mr-2 text-sm"></i>{" "}
 										Chats
 									</a>
 								</Link>
 							</li>
+							{/** logout */}
+							{session?.user != null && (
+								<li className="items-center">
+									<>
+										<a
+											onClick={handleLogout}
+											href="#pablo"
+											className={"text-xs uppercase py-3 font-bold block "}
+										>
+											<i className="fas fa-right-from-bracket text-slate-400 mr-2 text-sm"></i>{" "}
+											log out
+										</a>
+									</>
+								</li>
+							)}
 						</ul>
 					</div>
 				</div>
