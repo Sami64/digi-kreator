@@ -34,3 +34,15 @@ export const createKreator = async (
 
 	return kreator
 }
+
+export const createKreatorLocation = async (
+	id: string,
+	lat: number,
+	lng: number
+) => {
+	const locationCollection = collection(db, "locations")
+
+	const firestoreDoc = doc(locationCollection, id)
+
+	await setDoc(firestoreDoc, { id, lat, lng })
+}

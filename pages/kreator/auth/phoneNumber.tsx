@@ -10,7 +10,10 @@ import { useLocationContext } from "../../../contexts/LocationContextProvider"
 import { Category } from "../../../core/categories/types"
 import AuthLayout from "../../../layouts/authLayout"
 import { retrieveCategories } from "../../../modules/categories/retrieve"
-import { createKreator } from "../../../modules/users/create"
+import {
+	createKreator,
+	createKreatorLocation,
+} from "../../../modules/users/create"
 import { retrieveKreator } from "../../../modules/users/retrieve"
 import { NextPageWithLayout } from "../../_app"
 
@@ -66,6 +69,12 @@ const PhoneNumber: NextPageWithLayout = () => {
 					values.phone,
 					location,
 					catObj[0]
+				)
+
+				await createKreatorLocation(
+					session?.userId as string,
+					location.latitude,
+					location.longitude
 				)
 
 				router.replace("/kreator/home")
