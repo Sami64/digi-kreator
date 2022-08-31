@@ -34,7 +34,7 @@ const Index = () => {
 
 	return (
 		<>
-			<div className="relative">
+			<div className="relative h-screen">
 				<h1 className="text-center text-white text-5xl uppercase font-bold mb-4">
 					your chats
 				</h1>

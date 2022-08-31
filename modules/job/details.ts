@@ -13,6 +13,7 @@ export const jobDetails = async (id: string): Promise<Job> => {
 		videos: [],
 		audios: [],
 		images: [],
+		jobImages: [],
 		kreator: {
 			id: "",
 			name: "",
@@ -36,6 +37,7 @@ export const jobDetails = async (id: string): Promise<Job> => {
 			videos: snapshot.data()["videos"],
 			audios: snapshot.data()["audios"],
 			images: snapshot.data()["images"],
+			jobImages: snapshot.data()["jobImages"],
 		}
 
 		return job

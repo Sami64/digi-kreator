@@ -21,7 +21,7 @@ const Jobs: NextPageWithLayout = () => {
 	}
 	return (
 		<>
-			<div className="relative">
+			<div className="relative h-screen">
 				<div className="grid gap-4 grid-cols-3 grid-rows-3">
 					{jobs.map((job) => (
 						<div
