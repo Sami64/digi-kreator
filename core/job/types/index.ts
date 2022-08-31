@@ -1,19 +1,20 @@
-import { Category } from "../../categories/types";
-import { Kreator } from "../../users/types";
+import { Category } from "../../categories/types"
+import { Kreator } from "../../users/types"
 
 export interface Job {
-	id: string;
-	kreator: Kreator;
-	title: string;
-	description: string;
-	category: Category;
-	videos: string[];
-	audios: string[];
-	images: string[];
+	id: string
+	kreator: Kreator
+	title: string
+	description: string
+	category: Category
+	videos: string[]
+	audios: string[]
+	images: string[]
+	jobImages: string[]
 }
 
 export interface JobLocation {
-	id: string;
-	lat: number;
-	lng: number;
+	id: string
+	lat: number
+	lng: number
 }

@@ -21,9 +21,11 @@ const FormInput: React.FC<FormInputProps & any> = ({
 		(!!didFocus && field.value.trim().length > 2) || meta.touched
 
 	return (
-		<div className={`form-control `}>
+		<div className={`form-control mb-5 `}>
 			<div className="flex items-center justify-between">
-				<label htmlFor={props?.name}>{label}</label>
+				<label htmlFor={props?.name} className="uppercase my-3 text-lg">
+					{label}
+				</label>
 				{showFeedback ? (
 					<div
 						id={`${props.id}-feedback`}
@@ -72,7 +74,7 @@ const FormInput: React.FC<FormInputProps & any> = ({
 					/>
 				)}
 			</div>
-			<div className="text-xs" id={`${props.id}-help`} tabIndex={-1}>
+			<div className="text-md" id={`${props.id}-help`} tabIndex={-1}>
 				{helpText}
 			</div>
 		</div>

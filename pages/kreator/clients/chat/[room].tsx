@@ -13,14 +13,17 @@ import { retrieveChatClient } from "../../../../modules/users/retrieve"
 const ChatRoom: NextPage = () => {
 	const router = useRouter()
 	const [roomMessages, setRoomMessages] = useState<ChatMessage[]>([])
-	const [roomDetails, setRoomDetails] = useState({})
+	const [roomDetails, setRoomDetails] = useState<{
+		id: string
+		name: string
+		email: string
+	}>({ id: "", name: "", email: "" })
 	const { data: session, status } = useSession()
 
 	const { room } = router.query
 
 	const getRoomInfo = async () => {
 		const roomInfo = await retrieveRoomById(room as string)
-		console.log("room info", roomInfo)
 		if (roomInfo != null) {
 			const client = await retrieveChatClient(roomInfo.userId)
 			setRoomDetails(client)
@@ -32,25 +35,43 @@ const ChatRoom: NextPage = () => {
 			getRoomInfo()
 		}
 		retrieveChatRoomMessages(room as string, setRoomMessages)
-		console.log("session", session)
 	}, [])
 
 	return (
-		<div className="flex flex-col bg-slate-100 h-screen">
-			<h1 className="text-center text-xl font-bold">ChatRoom</h1>
-			<div className="mx-auto bg-white rounded-lg p-5 w-3/6">
+		<div className="flex flex-col bg-slate-800 h-screen">
+			<div
+				className="absolute top-0 w-full h-full bg-slate-800 bg-no-repeat bg-full"
+				style={{
+					backgroundImage: "url('/img/register_bg_2.png')",
+				}}
+			></div>
+			<div className="flex relative w-3/6 mx-auto">
+				<h1 className="text-xl font-bold text-white mt-5">
+					{roomDetails.name}
+				</h1>
+			</div>
+			<div className="mx-auto relative flex flex-col justify-between bg-white rounded-lg p-5 w-3/6 my-5 h-5/6">
 				{/** Message area */}
-				<div className="flex flex-col w-full">
-					{roomMessages.map((message) => (
-						<div key={message.id} className="relative text-lg w-full">
-							<h1
-								className={`${
-									session?.userId === message.userId ? "text-right" : ""
-								}`}
-							>
-								{message.message}
-								<span className="text-sm text-slate-400">
-									{new Date(message.timestamp.toDate()).toUTCString()}
+				<div className="relative flex flex-col w-full overflow-y-auto">
+					{roomMessages?.map((message) => (
+						<div
+							key={message.id}
+							className={`relative flex text-lg ${
+								session?.userId === message.userId ? "justify-end" : ""
+							} `}
+						>
+							<h1 className={`flex flex-col`}>
+								<span
+									className={`bg-slate-300 px-3 py-2 ${
+										session?.userId === message.userId
+											? "rounded-tl-lg rounded-tr-lg rounded-bl-lg"
+											: "rounded-tl-lg rounded-tr-lg rounded-br-lg"
+									}`}
+								>
+									{message.message}
+								</span>
+								<span className="text-xs text-slate-400">
+									{new Date(message?.timestamp?.toDate()).toUTCString()}
 								</span>
 							</h1>
 						</div>

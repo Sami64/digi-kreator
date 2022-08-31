@@ -44,6 +44,7 @@ const NewJob: React.FC<Props> = ({ isEdit = false, job }) => {
 		audios: UploadableFile[]
 		images: UploadableFile[]
 		videos: UploadableFile[]
+		jobImages: UploadableFile[]
 	}
 
 	const formik = useFormik({
@@ -55,6 +56,7 @@ const NewJob: React.FC<Props> = ({ isEdit = false, job }) => {
 					audios: job?.audios as any,
 					images: job?.images as any,
 					videos: job?.videos as any,
+					jobImages: job?.jobImages as any,
 			  }
 			: {
 					title: "",
@@ -63,6 +65,7 @@ const NewJob: React.FC<Props> = ({ isEdit = false, job }) => {
 					audios: [],
 					images: [],
 					videos: [],
+					jobImages: [],
 			  },
 		onSubmit: async (values: FormValues) => {
 			try {
@@ -78,7 +81,8 @@ const NewJob: React.FC<Props> = ({ isEdit = false, job }) => {
 						catObj[0],
 						values.videos.map((video) => video.url as string),
 						values.audios.map((audio) => audio.url as string),
-						values.images.map((image) => image.url as string)
+						values.images.map((image) => image.url as string),
+						values.jobImages.map((jobImage) => jobImage.url as string)
 					)
 					router.replace("/kreator/jobs")
 				} else {
@@ -89,7 +93,8 @@ const NewJob: React.FC<Props> = ({ isEdit = false, job }) => {
 						catObj[0],
 						values.videos.map((video) => video.url as string),
 						values.audios.map((audio) => audio.url as string),
-						values.images.map((image) => image.url as string)
+						values.images.map((image) => image.url as string),
+						values.jobImages.map((jobImage) => jobImage.url as string)
 					)
 					router.replace(`/kreator/job/${job?.id}`)
 				}
@@ -100,7 +105,7 @@ const NewJob: React.FC<Props> = ({ isEdit = false, job }) => {
 		validationSchema: Yup.object({
 			title: Yup.string()
 				.min(8, "Must be at least 8 characters")
-				.max(20, "Must be less  than 20 characters")
+				.max(100, "Must be less  than 100 characters")
 				.required("Title is required"),
 			description: Yup.string().required("Description is required"),
 			category: Yup.string()
@@ -109,96 +114,156 @@ const NewJob: React.FC<Props> = ({ isEdit = false, job }) => {
 			audios: Yup.array(Yup.object({ url: Yup.string().required() })),
 			images: Yup.array(Yup.object({ url: Yup.string().required() })),
 			videos: Yup.array(Yup.object({ url: Yup.string().required() })),
+			jobImages: Yup.array(Yup.object({ url: Yup.string().required() }))
+				.min(1)
+				.required("Upload at least one job image"),
 		}),
 	})
+
+	const validForm = async () => {
+		await formik.validateForm()
+	}
+
+	useEffect(() => {
+		validForm()
+	}, [])
 
 	return (
 		<div className="bg-white p-16 rounded-2xl shadow-lg">
 			<FormikProvider value={formik}>
+				{/**General info */}
+				<h1 className="text-2xl uppercase font-extrabold my-2 text-slate-700">
+					general info
+				</h1>
 				<Form>
-					{/** Title */}
-					<FormInput
-						label="Title"
-						id="title"
-						name="title"
-						helpText="Must be 8-20 characters and cannot contain special characters."
-						type="text"
-					/>
+					<div className="border rounded-lg py-8 px-10 my-5 border-slate-700">
+						{/** Title */}
+						<FormInput
+							label="Title"
+							id="title"
+							name="title"
+							helpText="Must be 8-20 characters and cannot contain special characters."
+							type="text"
+						/>
 
-					{/** Description */}
-					<FormInput
-						label="Description"
-						isMulti={true}
-						id="description"
-						name="description"
-						helpText="Must be 8-20 characters and cannot contain special characters."
-						type="text"
-					/>
+						{/** Description */}
+						<FormInput
+							label="Description"
+							isMulti={true}
+							id="description"
+							name="description"
+							helpText="Must be 8-20 characters and cannot contain special characters."
+							type="text"
+						/>
 
-					{/** Category */}
-					<div className="flex flex-col">
-						<label htmlFor="category">Category</label>
-						<Field
-							as="select"
-							id="category"
-							name="category"
-							className=" rounded text-base relative text-slate-600 placeholder-slate-300"
-						>
-							<option value={""}>Pick a category</option>
-							{categoriesOptions}
-						</Field>
-						<ErrorMessage
-							name="category"
-							render={(message) => (
-								<p className="text-xs text-red-600 capitalize">{message}</p>
+						{/** Category */}
+						<div className="flex flex-col">
+							<label htmlFor="category" className="uppercase my-3 text-lg">
+								Category
+							</label>
+							<Field
+								as="select"
+								id="category"
+								name="category"
+								className=" rounded text-base relative text-slate-600 placeholder-slate-300"
+							>
+								<option value={""}>Pick a category</option>
+								{categoriesOptions}
+							</Field>
+							<ErrorMessage
+								name="category"
+								render={(message) => (
+									<p className="text-xs text-red-600 capitalize">{message}</p>
+								)}
+							/>
+						</div>
+					</div>
+
+					<h1 className="text-2xl uppercase font-extrabold my-2 text-slate-700">
+						media info
+					</h1>
+					<div className="border rounded-lg py-8 px-10 my-5 border-slate-700">
+						<div className="flex flex-col my-5">
+							<label
+								htmlFor="jobImages"
+								className="capitalize text-slate-800 text-lg font-bold "
+							>
+								Job Images
+							</label>
+							<label
+								htmlFor="jobImages"
+								className="capitalize text-lg text-slate-600 font-bold mb-5"
+							>
+								please upload images that best describe your job
+							</label>
+							<FileUpload
+								name="jobImages"
+								accept={{
+									"image/*": [".png", ".jpg", ".jpeg"],
+								}}
+							/>
+							{formik.errors.jobImages && (
+								<div className="text-red-700 font-extrabold capitalize text-lg">
+									at least one job image is required
+								</div>
 							)}
-						/>
+						</div>
 					</div>
-					{/**Audios Upload */}
-					<div className="flex flex-col my-5">
-						<label
-							htmlFor="audios"
-							className="capitalize text-slate-800 text-lg font-bold mb-5"
-						>
-							audio files
-						</label>
-						<FileUpload
-							name="audios"
-							accept={{
-								"audio/*": [".mp3"],
-							}}
-						/>
+
+					<h1 className="text-2xl uppercase font-extrabold mt-2 text-slate-700">
+						portfolio uploads
+					</h1>
+					<h5 className="capitalize text-lg text-slate-500 font-bold">
+						upload all content in your portfolio related to your job here
+					</h5>
+					<div className="border rounded-lg py-8 px-10 my-5 border-slate-700">
+						{/**Audios Upload */}
+						<div className="flex flex-col my-5">
+							<label
+								htmlFor="audios"
+								className="capitalize text-slate-800 text-lg font-bold mb-5"
+							>
+								audio files
+							</label>
+							<FileUpload
+								name="audios"
+								accept={{
+									"audio/*": [".mp3"],
+								}}
+							/>
+						</div>
+						{/**Videos Upload */}
+						<div className="flex flex-col my-5">
+							<label
+								htmlFor="videos"
+								className="capitalize text-slate-800 text-lg font-bold mb-5"
+							>
+								videos files
+							</label>
+							<FileUpload
+								name="videos"
+								accept={{
+									"video/mp4": [],
+								}}
+							/>
+						</div>
+						{/** Images Upload */}
+						<div className="flex flex-col my-5">
+							<label
+								htmlFor="images"
+								className="capitalize text-slate-800 text-lg font-bold mb-5"
+							>
+								image files
+							</label>
+							<FileUpload
+								name="images"
+								accept={{
+									"image/*": [".png", ".jpg", ".jpeg"],
+								}}
+							/>
+						</div>
 					</div>
-					{/**Videos Upload */}
-					<div className="flex flex-col my-5">
-						<label
-							htmlFor="videos"
-							className="capitalize text-slate-800 text-lg font-bold mb-5"
-						>
-							videos files
-						</label>
-						<FileUpload
-							name="videos"
-							accept={{
-								"video/mp4": [],
-							}}
-						/>
-					</div>
-					{/** Images Upload */}
-					<div className="flex flex-col my-5">
-						<label
-							htmlFor="images"
-							className="capitalize text-slate-800 text-lg font-bold mb-5"
-						>
-							image files
-						</label>
-						<FileUpload
-							name="images"
-							accept={{
-								"image/*": [".png", ".jpg", ".jpeg"],
-							}}
-						/>
-					</div>
+
 					<div className="flex justify-center mt-10">
 						<button
 							type="submit"

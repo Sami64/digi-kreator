@@ -17,7 +17,8 @@ export const createJob = async (
 	category: Category,
 	videos: string[],
 	audios: string[],
-	images: string[]
+	images: string[],
+	jobImages: string[]
 ) => {
 	// let job: Job = {
 	// 	id: "",
@@ -50,6 +51,7 @@ export const createJob = async (
 		audios,
 		images,
 		kreator,
+		jobImages,
 	})
 }
 
@@ -60,7 +62,8 @@ export const editJob = async (
 	category: Category,
 	videos: string[],
 	audios: string[],
-	images: string[]
+	images: string[],
+	jobImages: string[]
 ) => {
 	const firestoreDoc = doc(db, "jobs", id)
 
@@ -71,6 +74,8 @@ export const editJob = async (
 		videos: videos.length > 0 ? arrayUnion(...videos) : arrayUnion(...[]),
 		audios: audios.length > 0 ? arrayUnion(...audios) : arrayUnion(...[]),
 		images: images.length > 0 ? arrayUnion(...images) : arrayUnion(...[]),
+		jobImages:
+			jobImages.length > 0 ? arrayUnion(...jobImages) : arrayUnion(...[]),
 	})
 }
 
