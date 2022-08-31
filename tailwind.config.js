@@ -10,6 +10,13 @@ module.exports = {
 	theme: {
 		colors: {
 			...colors,
+			digi_primary: {
+				DEFAULT: "#f36523",
+				light: "#faebe4",
+			},
+			digi_background: {
+				DEFAULT: "#F8F8F8",
+			},
 		},
 		extend: {
 			minHeight: {

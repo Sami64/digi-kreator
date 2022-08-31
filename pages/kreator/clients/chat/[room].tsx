@@ -32,17 +32,32 @@ const ChatRoom: NextPage = () => {
 			getRoomInfo()
 		}
 		retrieveChatRoomMessages(room as string, setRoomMessages)
+		console.log("session", session)
 	}, [])
 
 	return (
-		<div>
-			ChatRoom
-			{roomMessages.map((message) => (
-				<div key={message.id}>
-					<h1>{message.message}</h1>
+		<div className="flex flex-col bg-slate-100 h-screen">
+			<h1 className="text-center text-xl font-bold">ChatRoom</h1>
+			<div className="mx-auto bg-white rounded-lg p-5 w-3/6">
+				{/** Message area */}
+				<div className="flex flex-col w-full">
+					{roomMessages.map((message) => (
+						<div key={message.id} className="relative text-lg w-full">
+							<h1
+								className={`${
+									session?.userId === message.userId ? "text-right" : ""
+								}`}
+							>
+								{message.message}
+								<span className="text-sm text-slate-400">
+									{new Date(message.timestamp.toDate()).toUTCString()}
+								</span>
+							</h1>
+						</div>
+					))}
 				</div>
-			))}
-			<ChatInput roomId={room as string} userId={session?.userId as string} />
+				<ChatInput roomId={room as string} userId={session?.userId as string} />
+			</div>
 		</div>
 	)
 }

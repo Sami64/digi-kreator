@@ -17,16 +17,19 @@ const ChatInput: React.FC<Props> = ({ roomId, userId }) => {
 	}
 
 	return (
-		<div>
+		<div className="relative bottom-0 w-full">
 			<form>
-				<input
-					value={input}
-					onChange={(e) => setInput(e.target.value)}
-					placeholder={`Message to kreator`}
-				/>
-				<button type="submit" onClick={sendMessage}>
-					SEND
-				</button>
+				<div className="flex flex-1 w-full">
+					<input
+						className="w-full text-lg"
+						value={input}
+						onChange={(e) => setInput(e.target.value)}
+						placeholder={`Message to kreator`}
+					/>
+					<button type="submit" onClick={sendMessage}>
+						<i className="fas fa-paper-plane text-slate-400 mr-2 text-xl hover:text-digi_primary"></i>
+					</button>
+				</div>
 			</form>
 		</div>
 	)
