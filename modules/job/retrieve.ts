@@ -26,6 +26,7 @@ export const retrieveJobs = async (id: string) => {
 			videos: job.data()["videos"],
 			audios: job.data()["audios"],
 			images: job.data()["images"],
+			jobImages: job.data()["jobImages"],
 		})
 	})
 
@@ -58,6 +59,7 @@ export const retrieveJob = async (jobId: string) => {
 			videos: snapshot.data()["videos"],
 			audios: snapshot.data()["audios"],
 			images: snapshot.data()["images"],
+			jobImages: snapshot.data()["jobImages"],
 		}
 
 		return job
