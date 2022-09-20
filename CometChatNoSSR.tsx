@@ -4,7 +4,6 @@ import { Component } from "react"
 import { CometChatUI } from "./cometchat-pro-react-ui-kit/CometChatWorkspace/src/components/index"
 import constants from "./core/utils/comet_constants"
 
-// export default CometChatNoSSR
 type MyProps = {}
 
 type MyState = {
