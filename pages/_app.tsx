@@ -8,27 +8,6 @@ import { LocationContextProvider } from "../contexts/LocationContextProvider"
 import "../styles/globals.css"
 import "../styles/tailwind.css"
 
-// Router.events.on("routeChangeStart", (url) => {
-// 	console.log(`Loading: ${url}`)
-// 	document.body.classList.add("body-page-transition")
-// 	ReactDOM.render(
-// 		<PageChange path={url} />,
-// 		document.getElementById("page-transition")
-// 	)
-// })
-// Router.events.on("routeChangeComplete", () => {
-// 	ReactDOM.unmountComponentAtNode(
-// 		document.getElementById("page-transition") as Element
-// 	)
-// 	document.body.classList.remove("body-page-transition")
-// })
-// Router.events.on("routeChangeError", () => {
-// 	ReactDOM.unmountComponentAtNode(
-// 		document.getElementById("page-transition") as Element
-// 	)
-// 	document.body.classList.remove("body-page-transition")
-// })
-
 export type NextPageWithLayout = NextPage & {
 	getLayout?: (page: ReactElement) => ReactNode
 }
