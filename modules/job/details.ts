@@ -18,6 +18,7 @@ export const jobDetails = async (id: string): Promise<Job> => {
 			id: "",
 			name: "",
 			email: "",
+			image: "",
 			phone: "",
 			location: { longitude: 0, latitude: 0 },
 			category: { id: "", title: "" },
