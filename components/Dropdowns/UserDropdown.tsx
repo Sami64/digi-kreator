@@ -1,7 +1,9 @@
 import { createPopper } from "@popperjs/core"
+import { useSession } from "next-auth/react"
 import React, { RefObject } from "react"
 
 const UserDropdown = () => {
+	const { data: session, status } = useSession()
 	// dropdown props
 	const [dropdownPopoverShow, setDropdownPopoverShow] = React.useState(false)
 	const btnDropdownRef: RefObject<HTMLAnchorElement> = React.createRef()
@@ -34,8 +36,9 @@ const UserDropdown = () => {
 					<span className="w-12 h-12 text-sm text-white bg-slate-200 inline-flex items-center justify-center rounded-full">
 						<img
 							alt="..."
+							referrerPolicy="no-referrer"
 							className="w-full rounded-full align-middle border-none shadow-lg"
-							src="/img/sam.jpg"
+							src={session?.user?.image as string}
 						/>
 					</span>
 				</div>

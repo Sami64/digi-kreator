@@ -6,6 +6,7 @@ export const createKreator = async (
 	userId: string,
 	name: string,
 	email: string,
+	image: string,
 	phone: string,
 	location: { longitude: number; latitude: number },
 	category: { id: string; title: string }
@@ -13,6 +14,7 @@ export const createKreator = async (
 	let kreator: Kreator = {
 		id: "",
 		name: "",
+		image: "",
 		email: "",
 		phone: "",
 		location: { longitude: 0, latitude: 0 },
@@ -27,6 +29,7 @@ export const createKreator = async (
 		id: userId,
 		name,
 		email,
+		image,
 		phone,
 		location,
 		category,

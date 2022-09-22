@@ -66,6 +66,7 @@ const PhoneNumber: NextPageWithLayout = () => {
 					session?.userId as string,
 					session?.user?.name as string,
 					session?.user?.email as string,
+					session?.user?.image as string,
 					values.phone,
 					location,
 					catObj[0]
