@@ -68,10 +68,10 @@ const Home: NextPageWithLayout = () => {
 	return (
 		<div className="relative h-screen">
 			<div className="bg-white p-16 rounded-2xl shadow-lg">
-				<h1 className="text-center text-7xl text-slate-800 font-bold">
+				<h1 className="text-center sm:text-2xl md:text-5xl lg:text-7xl text-slate-800 font-bold">
 					Kreator Home
 				</h1>
-				<h1 className="text-center text-7xl text-slate-800 font-bold">
+				<h1 className="text-center sm:text-2xl md:text-2xl lg:text-6xl text-slate-800 font-bold">
 					{session?.user?.email}
 				</h1>
 			</div>

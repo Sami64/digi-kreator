@@ -1,29 +1,23 @@
-import { useSession } from "next-auth/react"
+import { GetServerSideProps, InferGetServerSidePropsType } from "next"
+import { getSession, useSession } from "next-auth/react"
 import { useRouter } from "next/router"
-import { ReactElement, useEffect, useState } from "react"
+import { ReactElement } from "react"
 import { Job } from "../../core/job/types"
 import KreatorLayout from "../../layouts/kreatorLayout"
 import { retrieveJobs } from "../../modules/job/retrieve"
 import { NextPageWithLayout } from "../_app"
 
-const Jobs: NextPageWithLayout = () => {
+const Jobs: NextPageWithLayout = ({
+	jobs,
+}: InferGetServerSidePropsType<typeof getServerSideProps>) => {
 	const { data: session, status } = useSession()
-	const [jobs, setJobs] = useState<Job[]>([])
 	const router = useRouter()
 
-	useEffect(() => {
-		getJobs()
-	}, [])
-
-	const getJobs = async () => {
-		const dbJobs = await retrieveJobs(session?.userId as string)
-		setJobs(dbJobs)
-	}
 	return (
 		<>
 			<div className="relative h-screen">
 				<div className="grid gap-4 grid-cols-3 grid-rows-3">
-					{jobs.map((job) => (
+					{jobs.map((job: Job) => (
 						<div
 							key={job.id}
 							className="flex flex-col bg-white p-5 rounded-2xl shadow-lg items-center justify-center"
@@ -44,6 +38,18 @@ const Jobs: NextPageWithLayout = () => {
 }
 
 export default Jobs
+
+export const getServerSideProps: GetServerSideProps = async ({
+	query,
+	req,
+}) => {
+	const session = await getSession({ req })
+	console.log("session", session)
+	const jobs = await retrieveJobs(session?.userId as string)
+	return {
+		props: { jobs },
+	}
+}
 
 Jobs.getLayout = function getLayout(page: ReactElement) {
 	return <KreatorLayout>{page}</KreatorLayout>

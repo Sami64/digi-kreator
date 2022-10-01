@@ -1,31 +1,23 @@
 import { Tabs } from "antd"
+import { GetServerSideProps, InferGetServerSidePropsType } from "next"
 import { useRouter } from "next/router"
-import { ReactElement, useEffect, useState } from "react"
+import { ReactElement } from "react"
 import AudiosSection from "../../../components/Jobs/AudiosSection"
 import ImagesSection from "../../../components/Jobs/ImagesSection"
 import VideosSection from "../../../components/Jobs/VideosSection"
-import { Job } from "../../../core/job/types"
 import KreatorLayout from "../../../layouts/kreatorLayout"
 import { deleteJob } from "../../../modules/job/create"
 import { retrieveJob } from "../../../modules/job/retrieve"
 import { NextPageWithLayout } from "../../_app"
 
-const JobInfo: NextPageWithLayout = () => {
+const JobInfo: NextPageWithLayout = ({
+	job,
+}: InferGetServerSidePropsType<typeof getServerSideProps>) => {
 	const router = useRouter()
-	const [job, setJob] = useState<Job>()
 
 	const { id } = router.query
 
 	const { TabPane } = Tabs
-
-	useEffect(() => {
-		getJob()
-	}, [])
-
-	const getJob = async () => {
-		const result = await retrieveJob(id as string)
-		setJob(result)
-	}
 
 	const handleDelete = async () => {
 		await deleteJob(id as string)
@@ -118,6 +110,12 @@ const JobInfo: NextPageWithLayout = () => {
 }
 
 export default JobInfo
+
+export const getServerSideProps: GetServerSideProps = async ({ query }) => {
+	const { id } = query
+	const job = await retrieveJob(id as string)
+	return { props: { job } }
+}
 
 JobInfo.getLayout = function getLayout(page: ReactElement) {
 	return <KreatorLayout>{page}</KreatorLayout>
