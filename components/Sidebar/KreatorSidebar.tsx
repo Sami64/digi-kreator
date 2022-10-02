@@ -99,7 +99,7 @@ const KreatorSidebar = () => {
 									>
 										<i
 											className={
-												"fas fa-tools mr-2 text-sm " +
+												"fas fa-house-blank mr-2 text-sm " +
 												(router.pathname.indexOf("/kreator/home") !== -1
 													? "opacity-75"
 													: "text-slate-300")
